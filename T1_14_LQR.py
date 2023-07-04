@@ -9,7 +9,7 @@ from inputs import *
 def main():
     # Apply LQR controller
     Q = np.diag([1, 1, 1, 1, 1, 1])
-    P = np.diag([1e-6, 1e-6, 1e-6])
+    P = np.diag([1e-6, 1e-12, 1e-13])
     (K, S, E) = ct.lqr(A, B, Q, P)
 
     # Export gain matrix
@@ -31,6 +31,12 @@ def main():
     new_poles = np.linalg.eig(F)[0]  # E TODO
     print("Poles:", bmatrix(new_poles))
 
+    # Save poles for later use:
+    np.save("poles_LQR", new_poles)
+
+    # Print poles as python list source code:
+    print("\npoles =", new_poles.tolist())
+
     # Initialize closed loop system
     sys_ClosedLoop = ct.ss(F, B, C, D)
 
@@ -48,14 +54,17 @@ def main():
     plt.suptitle("Resposta ao degrau (LQR)")
     save_plot("ClosedLoop_LQR_step_thetas.png")
 
-    plot_response(T, yout, [3, 4, 5], "ωᵢ [rad/s]")
-    plt.suptitle("Resposta ao degrau (LQR)")
-    save_plot("ClosedLoop_LQR_step_omegas.png")
-
     # Plot control inputs
     plot_input(T, yout, K, [0, 1, 2], "uᵢ")
     plt.suptitle("Esforços para resposta ao degrau (LQR)")
     save_plot("ClosedLoop_LQR_step_inputs.png")
+
+    # Print max input values
+    print("\nMax input values:")
+    u_count = len(U_LABELS)
+    y = eval_input(yout, K)
+    for i in range(u_count):
+        print("max({}) = {:.2e}".format(U_LABELS[i], np.max(y[:, i])))
 
     # Show plots
     if SHOW_PLOTS:

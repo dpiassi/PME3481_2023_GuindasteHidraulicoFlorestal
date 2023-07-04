@@ -45,12 +45,17 @@ def plot_response(T, yout, columns: list[int], ylabel: str):
     plt.xlabel('t [s]')
 
 
-def plot_input(T, yout, K, columns: list[int], ylabel: str):
-    u_count = len(U_LABELS)
-    fig, axs = plt.subplots(u_count, sharex=True)
+def eval_input(yout, K):
     y = np.zeros((yout.shape[2], yout.shape[1]))
     for i in range(yout.shape[2]):
         y[i] = K @ yout[:, 0, i]
+    return y
+
+
+def plot_input(T, yout, K, columns: list[int], ylabel: str):
+    u_count = len(U_LABELS)
+    fig, axs = plt.subplots(u_count, sharex=True)
+    y = eval_input(yout, K)
 
     for i in range(u_count):
         for column in columns:

@@ -8,7 +8,7 @@ from inputs import *
 # === MAIN FUNCTION
 def main():
     # Target poles:
-    p = [-2.19E-01 + 3.24j, -2.19E-01 -3.24j, -6.04E-02 + 8.10E-01j, -6.04E-02 -8.10E-01j, -1.15, -1.18]
+    p = [(-429), (-42.5), (-1.07+0.0135j), (-1.07-0.0135j), (-1.00), (-1.009)]
 
     # Place closed loop poles:
     K = ct.place(A, B, p)
@@ -28,6 +28,9 @@ def main():
     new_poles = np.linalg.eig(F)[0]  # E TODO
     print("Poles:", bmatrix(new_poles))
 
+    # Save poles for later use:
+    np.save("poles_PP", new_poles)
+
     # Initialize closed loop system
     sys_ClosedLoop = ct.ss(F, B, C, D)
 
@@ -45,14 +48,17 @@ def main():
     plt.suptitle("Resposta ao degrau (alocação de polos)")
     save_plot("ClosedLoop_step_thetas.png")
 
-    plot_response(T, yout, [3, 4, 5], "ωᵢ [rad/s]")
-    plt.suptitle("Resposta ao degrau (alocação de polos)")
-    save_plot("ClosedLoop_step_omegas.png")
-
     # Plot control inputs
     plot_input(T, yout, K, [0, 1, 2], "uᵢ")
     plt.suptitle("Esforços para resposta ao degrau (alocação de polos)")
     save_plot("ClosedLoop_step_inputs.png")
+
+    # Print max input values
+    print("\nMax input values:")
+    u_count = len(U_LABELS)
+    y = eval_input(yout, K)
+    for i in range(u_count):
+        print("max({}) = {:.2e}".format(U_LABELS[i], np.max(y[:, i])))
 
     # Show plots
     if SHOW_PLOTS:

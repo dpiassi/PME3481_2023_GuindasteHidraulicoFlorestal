@@ -4,12 +4,6 @@ import matplotlib.pyplot as plt
 from helpers import *
 from inputs import *
 
-# === CONSTANTS
-SHOW_PLOTS = False
-_DURATION = 300
-_STEPS = 1000
-_TIME = np.linspace(0, _DURATION, _STEPS)
-
 
 # === MAIN FUNCTION
 def main():
@@ -32,18 +26,6 @@ def main():
     plt.figure()
     ct.pzmap(sys_OpenLoop, plot=True, grid=True, title="Pólos em malha aberta")
     save_plot("OpenLoop_pzmap.png")
-
-    # Simulate step response
-    T, yout = ct.step_response(sys_OpenLoop, _TIME, X0)
-
-    # Plot step response
-    plot_response(T, yout, [0, 1, 2], "θᵢ [rad]")
-    plt.suptitle("Resposta ao degrau (malha aberta)")
-    save_plot("OpenLoop_step_thetas.png")
-
-    plot_response(T, yout, [3, 4, 5], "ωᵢ [rad/s]")
-    plt.suptitle("Resposta ao degrau (malha aberta)")
-    save_plot("OpenLoop_step_omegas.png")
 
     # Show plots
     if SHOW_PLOTS:

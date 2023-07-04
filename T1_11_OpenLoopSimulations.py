@@ -26,7 +26,7 @@ def main():
 
     # Iterate over all transfer functions in tf_OpenLoop:
     for i in range(3):
-        for j in range(6):
+        for j in range(3):
             print("Input", i + 1, "to output", j + 1, ":")
             print(tf_OpenLoop[j, i])
             sys = ct.tf2ss(tf_OpenLoop[j, i])

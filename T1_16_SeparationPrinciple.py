@@ -12,12 +12,8 @@ _STEPS = 1000
 _TIME = np.linspace(0, _DURATION, _STEPS)
 
 
-# === MAIN FUNCTION
-def main():
-    # Load previous scripts results:
-    K = np.load("K_PP.npy")
-    Ko = np.load("Ko_PP.npy")
-
+# === FUNCTIONS
+def plot_separation_principle_simulation(K, Ko):
     # Apply separation principle to simulate both controller and observer effects
     a11 = A
     a12 = -B@K
@@ -47,9 +43,24 @@ def main():
     plt.tight_layout()
 
 
+
+# === MAIN FUNCTION
+def main():
+    # Load previous scripts results:
+    K = np.load("K_PP.npy")
+    Ko_PP = np.load("Ko_PP.npy")
+    Ko_LQR = np.load("Ko_LQR.npy")
+
+    # Plot separation principle simulation
+    plot_separation_principle_simulation(K, Ko_PP)
+    save_plot("SeparationPrinciple_PP.png")
+
+    plot_separation_principle_simulation(K, Ko_LQR)
+    save_plot("SeparationPrinciple_LQR.png")
+
     # Show plots
-    # if SHOW_PLOTS:
-    plt.show()
+    if SHOW_PLOTS:
+        plt.show()
 
 
 # === START

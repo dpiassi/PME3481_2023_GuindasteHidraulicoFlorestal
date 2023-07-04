@@ -42,10 +42,6 @@ def main():
     plt.suptitle("Resposta ao degrau (alocação de polos)")
     save_plot("TransferMatrix_ClosedLoop_PP_thetas.png")
 
-    plot_response(TIME, X, [3, 4, 5], "ωᵢ [rad/s]")
-    plt.suptitle("Resposta ao degrau (alocação de polos)")
-    save_plot("TransferMatrix_ClosedLoop_PP_omegas.png")
-
     # === Closed Loop === LQR
     # Evaluate state-transition matrices:
     Phi, Gamma = build_transfer_matrix(A - B @ K_LQR, DELTA_TIME)
@@ -57,10 +53,6 @@ def main():
     plot_response(TIME, X, [0, 1, 2], "θᵢ [rad]")
     plt.suptitle("Resposta ao degrau (LQR)")
     save_plot("TransferMatrix_ClosedLoop_LQR_thetas.png")
-
-    plot_response(TIME, X, [3, 4, 5], "ωᵢ [rad/s]")
-    plt.suptitle("Resposta ao degrau (LQR)")
-    save_plot("TransferMatrix_ClosedLoop_LQR_omegas.png")
 
 
     # Show plots
