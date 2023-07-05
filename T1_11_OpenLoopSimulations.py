@@ -21,6 +21,18 @@ def main():
     plt.suptitle("Resposta ao degrau (malha aberta)")
     save_plot("OpenLoop_step_omegas.png")
 
+    # Simulate impulse response
+    T, yout = ct.impulse_response(sys_OpenLoop, TIME, X0)
+
+    # Plot impulse response
+    plot_response(T, yout, [0, 1, 2], "θᵢ [rad]")
+    plt.suptitle("Resposta ao impulso (malha aberta)")
+    save_plot("OpenLoop_impulse_thetas.png")
+
+    plot_response(T, yout, [3, 4, 5], "ωᵢ [rad/s]")
+    plt.suptitle("Resposta ao impulso (malha aberta)")
+    save_plot("OpenLoop_impulse_omegas.png")
+
     #  Get the open loop transfer function
     tf_OpenLoop = ct.ss2tf(sys_OpenLoop)
 
