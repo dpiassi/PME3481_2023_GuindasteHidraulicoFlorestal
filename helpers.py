@@ -29,7 +29,7 @@ def plot_response(T, yout, columns: list[int], ylabel: str):
 
     for i in range(u_count):
         for column in columns:
-            axs[i].plot(T, yout[column, 0], label=Y_LABELS[column])
+            axs[i].plot(T, yout[column, i], label=Y_LABELS[column])
         axs[i].set_title(U_LABELS[i])
         axs[i].axhline(linewidth=0.5, color='gray')
         axs[i].axvline(linewidth=0.5, color='gray')
